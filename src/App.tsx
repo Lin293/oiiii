@@ -12,6 +12,7 @@ function App() {
   const [isTranslating, setIsTranslating] = useState(false);
 
   const lastClipboard = useRef("");
+  const isEditing = useRef(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   function addToHistory(value: string) {
@@ -25,22 +26,31 @@ function App() {
   }
 
   useEffect(() => {
-    async function readClipboardOnce() {
+    async function watchClipboard() {
       try {
         const clipboard = await readText();
 
-        if (clipboard) {
+        if (clipboard && clipboard !== lastClipboard.current) {
           lastClipboard.current = clipboard;
-          setText(clipboard);
           addToHistory(clipboard);
+
+          if (!isEditing.current && !isTranslating) {
+            setText(clipboard);
+          }
         }
       } catch (err) {
         console.error("Clipboard read failed:", err);
       }
     }
 
-    readClipboardOnce();
-  }, []);
+    watchClipboard();
+
+    const timer = window.setInterval(watchClipboard, 800);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [isTranslating]);
 
   async function handleTranslate() {
     const sourceText = text.trim();
@@ -52,7 +62,6 @@ function App() {
       const result = await translate(sourceText);
 
       setText(result);
-      addToHistory(result);
       lastClipboard.current = result;
 
       await trackTranslate(sourceText);
@@ -87,6 +96,12 @@ function App() {
         placeholder="Paste or type anything..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        onFocus={() => {
+          isEditing.current = true;
+        }}
+        onBlur={() => {
+          isEditing.current = false;
+        }}
         autoFocus
       />
 
