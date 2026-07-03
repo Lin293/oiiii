@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  background: #f5f5f7;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  padding: 14px 24px 18px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+}
+
+.editor {
+  flex: none;
+  height: 205px;
+  width: 100%;
+
+  padding-top: 0px;
+  padding-bottom: 14px;
+
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  font: inherit;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  color: #1d1d1f;
+}
+
+.editor::-webkit-scrollbar {
+  display: none;
+}
+
+.editor::placeholder {
+  color: rgba(120, 130, 138, 0.32);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.toolbar {
+  height: 32px;
+  margin-top: 6px;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  border-radius: 9px;
+  background: none;
+  color: #7b8794;
+
+  cursor: pointer;
+  transition: 0.18s;
+}
+
+.icon:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #111;
+}
+
+.resize-hint {
+  position: absolute;
+  right: 13px;
+  bottom: 9px;
+  transform: rotate(-45deg);
+  color: rgba(120, 130, 138, 0.32);
+  font-size: 16px;
+  letter-spacing: -4px;
+  user-select: none;
+}
+.history-panel {
+  position: absolute;
+  left: 22px;
+  bottom: 56px;
+
+  width: 260px;
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+}
+
+.history-item {
+  width: 100%;
+  padding: 9px 10px;
+
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  color: #1d1d1f;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.history-empty {
+  padding: 10px;
+  font-size: 13px;
+  color: #8a8f98;
+}
+
+.icon:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.icon:disabled svg {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
